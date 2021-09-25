@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:productivityapp/src/views/ui/home.dart';
+import 'package:productivityapp/src/views/ui/login_screen.dart';
+import 'package:productivityapp/src/views/utils/constants.dart';
+
 
 class ProductivityApp extends StatelessWidget {
   const ProductivityApp({Key? key}) : super(key: key);
@@ -22,7 +25,12 @@ class ProductivityApp extends StatelessWidget {
         primarySwatch: Colors.green
         ,
       ),
-      home: const MyHomePage(title: 'BusyBuddy'),
+      home: const Home(title: Constants.appName),
+      initialRoute: LoginScreen.routeName,
+      routes: {
+        LoginScreen.routeName: (context) => LoginScreen(),
+        Home.routeName: (context) => Home(title: Constants.appName),
+      },
     );
   }
 }
