@@ -105,7 +105,7 @@ class _TeamsState extends State<Teams> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addTask,
+        onPressed: _joinTeam,
         tooltip: 'Add Task',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -137,5 +137,3 @@ class _TeamsState extends State<Teams> {
   }
 
 }
-
-

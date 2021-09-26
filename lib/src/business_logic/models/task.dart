@@ -26,12 +26,15 @@ class TaskList {
 class _Task {
   String _name = "";
   String _description = "";
+  String _id = "";
 
   _Task(task) {
     _name = task['name'];
     _description = task['description'];
+    _id = task['id'];
   }
 
+  String get id => _id;
   String get name => _name;
   String get description => _description;
 }

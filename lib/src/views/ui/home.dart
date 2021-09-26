@@ -6,6 +6,7 @@ import 'package:productivityapp/src/views/ui/notification_settings.dart';
 import 'package:http/http.dart' show Client, Response;
 import 'dart:async';
 import 'dart:convert';
+
 class Home extends StatefulWidget {
   static const routeName = '/home';
   const Home({Key? key, required this.title}) : super(key: key);
@@ -31,18 +32,26 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  String newTask = "";
+  final newTaskController = TextEditingController();
 
-  void _addTask() {
+  void _addTask(String task) {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
       // so that the display can reflect the updated values. If we changed
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
-      /*
-      create task and add to list
-       */
+      Client client = Client();
+      Response response;
+      // response = client.put(Uri.parse(""), );
     });
+  }
+
+  void _removeTask(String id) {
+    print("removing " + id);
+
+    setState(() {});
   }
 
   @override
@@ -57,22 +66,20 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.menu),
-            tooltip: 'Notification Settings',
-            onPressed: () {
-              Navigator.of(context).pushReplacement(FadePageRoute(
-                builder: (context) => const NotificationSettings(title: Constants.appName),
-              ));
-            }
-          ),
+              icon: const Icon(Icons.menu),
+              tooltip: 'Notification Settings',
+              onPressed: () {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const NotificationSettings(title: Constants.appName),
+                ));
+              }),
         ],
       ),
-      body: FutureBuilder<TaskList> (
+      body: FutureBuilder<TaskList>(
         future: downloadData(),
         initialData: tasks,
         builder: (context, AsyncSnapshot<TaskList> snapshot) {
@@ -82,18 +89,25 @@ class _HomeState extends State<Home> {
           }
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return const Center(child: CircularProgressIndicator(
-                  backgroundColor: Colors.amber, strokeWidth: 1),);
+              return const Center(
+                child: CircularProgressIndicator(backgroundColor: Colors.amber, strokeWidth: 1),
+              );
             default:
               if (snapshot.hasData) {
                 print(snapshot.data);
                 return buildList(snapshot.data!);
-              } else return Text("no data");
+              } else
+                return Text("no data");
           }
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addTask,
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => _buildTaskEntryDialog(context),
+          );
+        },
         tooltip: 'Add Task',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
@@ -102,17 +116,25 @@ class _HomeState extends State<Home> {
 
   Widget buildList(TaskList tl) {
     return ListView(
-        children: tl.tasks.map(
-                (item) => ListTile(
+        children: tl.tasks
+            .map((item) => Card(
+                    child: ListTile(
+                  trailing: IconButton(
+                      icon: const Icon(Icons.close),
+                      tooltip: "Mark Complete",
+                      onPressed: () {
+                        _removeTask(item.id);
+                      }),
                   title: Text(item.name),
-                )).toList()
-    );
+                  subtitle: Text(item.description),
+                )))
+            .toList());
   }
 
   Future<TaskList> downloadData() async {
     Client client = Client();
     Response response;
-    response =  await client.get(Uri.parse('https://busybuddy.app/api/task'));
+    response = await client.get(Uri.parse('https://busybuddy.app/api/task'));
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
       print(json.decode(response.body.toString())[0]);
@@ -124,6 +146,32 @@ class _HomeState extends State<Home> {
     }
   }
 
+  Widget _buildTaskEntryDialog(BuildContext context) {
+    return Dialog(
+      child: Container(
+        height: 300,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Create New Task",
+              style: TextStyle(fontSize: 20),
+            ),
+            SizedBox(
+              width: 300,
+              child: TextField(
+                controller: newTaskController,
+              ),
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  _addTask(newTaskController.text);
+                  Navigator.of(context).pop();
+                },
+                child: Text("Submit"))
+          ],
+        ),
+      ),
+    );
+  }
 }
-
-

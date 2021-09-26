@@ -22,8 +22,6 @@ class NotificationSettings extends StatefulWidget {
 
 class _NotificationSettingsState extends State<NotificationSettings> {
 
-  String start_time = "";
-  String stop_time = "";
   String notif_type = "Scheduled";
   bool random_notifs = false;
   int interval = 90;
@@ -54,16 +52,29 @@ class _NotificationSettingsState extends State<NotificationSettings> {
       ),
       body: Column(
         children: [
-          Text("Notification Settings"),
+          SizedBox(height: 20),
+          Text("Notification Settings", style: TextStyle(fontSize: 25)),
+          SizedBox(height: 30),
           Text("Notifications Time Start"),
-          TextField(
-            controller: this.start_controller,
+          SizedBox(height: 30),
+          SizedBox(
+            width: 300,
+            child: TextField(
+              controller: this.start_controller,
+            ),
           ),
+          SizedBox(height: 30),
           Text("Notifications Time End"),
-          TextField(
-            controller: this.stop_controller,
+          SizedBox(height: 30),
+          SizedBox(
+            width: 300,
+            child: TextField(
+              controller: this.stop_controller,
+            ),
           ),
+          SizedBox(height: 30),
           Text("${notif_type}"),
+          SizedBox(height: 10),
           FlutterSwitch(
             value: random_notifs,
             showOnOff: true,
@@ -74,10 +85,16 @@ class _NotificationSettingsState extends State<NotificationSettings> {
               });
             },
           ),
+          SizedBox(height: 30),
           Text("Interval/ Times per day"),
-          TextField(
-            controller: this.rand_n_sched_controller,
+          SizedBox(height: 30),
+          SizedBox(
+            width: 300,
+            child: TextField(
+              controller: this.rand_n_sched_controller,
+            ),
           ),
+          SizedBox(height: 30),
           ElevatedButton(
             onPressed: () {
               _submitSettings();
