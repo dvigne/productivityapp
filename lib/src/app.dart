@@ -13,9 +13,9 @@ class ProductivityApp extends StatelessWidget {
     return MaterialApp(
       title: Constants.appName,
       theme: ThemeData(
-        primarySwatch: Colors.pink,
-        primaryColor: const Color(0xFFEF5DA8),
-        splashColor: const Color(0xFFF178B6),
+        primarySwatch: Colors.purple,
+        primaryColor: const Color(0xFFA5A6F6),
+        splashColor: const Color(0xFFA5A6F6),
         // Define the default font family.
         fontFamily: 'Work Sans',
 

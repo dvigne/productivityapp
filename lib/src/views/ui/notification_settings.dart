@@ -52,8 +52,10 @@ class _NotificationSettingsState extends State<NotificationSettings> {
     return Scaffold(
       resizeToAvoidBottomInset: false, 
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+        backgroundColor: Theme.of(context).splashColor,
+        leading: const Image(
+            image: NetworkImage('https://raw.githubusercontent.com/dvigne/productivityapp/master/assets/BusyBuddy_logo.png')
+        ),
         title: Text(widget.title),
       ),
       body: Column(

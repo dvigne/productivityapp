@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
   String newTask = "";
   final newTaskController = TextEditingController();
 
-  void _addTask(String task) {
+  void _addTask(String task) async {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -43,15 +43,28 @@ class _HomeState extends State<Home> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       Client client = Client();
-      Response response;
-      // response = client.put(Uri.parse(""), );
+      // var headers = {};
+      Map<String, String> body = {
+        "assigned" : "",
+        "name" : task,
+        "description" : "sample description",
+        "category" : "Test",
+        "status" : "to-do"
+      };
+      Future<Response> response = client.post(Uri.parse("https://busybuddy.app/api/task/"), body: body);
+      print(response);
     });
   }
 
   void _removeTask(String id) {
     print("removing " + id);
 
-    setState(() {});
+    setState(() {
+      Client client = Client();
+
+      Future<Response> response = client.delete(Uri.parse('https://busybuddy.app/api/task/' + id));
+      print(response);
+    });
   }
 
   @override
@@ -66,11 +79,14 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).splashColor,
+        leading: const Image(
+          image: NetworkImage('https://raw.githubusercontent.com/dvigne/productivityapp/master/assets/BusyBuddy_logo.png')
+        ),
         title: Text(widget.title),
         actions: <Widget>[
           IconButton(
-              icon: const Icon(Icons.menu),
+              icon: const Icon(Icons.notifications_rounded),
               tooltip: 'Notification Settings',
               onPressed: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -90,11 +106,12 @@ class _HomeState extends State<Home> {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return const Center(
-                child: CircularProgressIndicator(backgroundColor: Colors.amber, strokeWidth: 1),
+                child: CircularProgressIndicator(
+                    backgroundColor: Colors.purple,
+                    strokeWidth: 1),
               );
             default:
               if (snapshot.hasData) {
-                print(snapshot.data);
                 return buildList(snapshot.data!);
               } else
                 return Text("no data");
@@ -153,12 +170,13 @@ class _HomeState extends State<Home> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            SizedBox(height: 10),
+            const Text(
               "Create New Task",
               style: TextStyle(fontSize: 20),
             ),
             SizedBox(
-              width: 300,
+              width: 200,
               child: TextField(
                 controller: newTaskController,
               ),
@@ -168,7 +186,9 @@ class _HomeState extends State<Home> {
                   _addTask(newTaskController.text);
                   Navigator.of(context).pop();
                 },
-                child: Text("Submit"))
+                child: Text("Submit"),
+            ),
+            SizedBox(height: 10),
           ],
         ),
       ),
