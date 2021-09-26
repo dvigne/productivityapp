@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:productivityapp/src/views/utils/transition.dart';
+import 'package:productivityapp/src/views/utils/constants.dart';
+import 'package:productivityapp/src/views/ui/home.dart';
 
 class NotificationSettings extends StatefulWidget {
   static const routeName = '/notifications';
@@ -33,7 +36,9 @@ class _NotificationSettingsState extends State<NotificationSettings> {
 
 
   void _submitSettings() {
-
+    Navigator.of(context).pushReplacement(FadePageRoute(
+      builder: (context) => const Home(title: Constants.appName),
+    ));
   }
 
   @override
@@ -45,6 +50,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      resizeToAvoidBottomInset: false, 
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
