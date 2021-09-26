@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:productivityapp/src/business_logic/models/task.dart';
+import 'package:productivityapp/src/views/utils/transition.dart';
+import 'package:productivityapp/src/views/utils/constants.dart';
+import 'package:productivityapp/src/views/ui/notification_settings.dart';
 import 'package:http/http.dart' show Client, Response;
 import 'dart:async';
 import 'dart:convert';
@@ -57,6 +60,17 @@ class _HomeState extends State<Home> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.menu),
+            tooltip: 'Notification Settings',
+            onPressed: () {
+              Navigator.of(context).pushReplacement(FadePageRoute(
+                builder: (context) => const NotificationSettings(title: Constants.appName),
+              ));
+            }
+          ),
+        ],
       ),
       body: FutureBuilder<TaskList> (
         future: downloadData(),
@@ -85,28 +99,31 @@ class _HomeState extends State<Home> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-}
 
-Widget buildList(TaskList tl) {
-  return Column(
-      children: tl.tasks.map(
-              (item) => Text(
-              item.name
-          )
-      ).toList());
-}
-
-Future<TaskList> downloadData() async {
-  Client client = Client();
-  Response response;
-  response =  await client.get(Uri.parse('https://busybuddy.app/api/task'));
-  if (response.statusCode == 200) {
-    // If the call to the server was successful, parse the JSON
-    print(json.decode(response.body.toString())[0]);
-    TaskList tl = TaskList.fromJson(json.decode(response.body.toString()));
-    return Future.value(tl);
-  } else {
-    // If that call was not successful, throw an error.
-    throw Exception('Failed to load post');
+  Widget buildList(TaskList tl) {
+    return ListView(
+        children: tl.tasks.map(
+                (item) => ListTile(
+                  title: Text(item.name),
+                )).toList()
+    );
   }
+
+  Future<TaskList> downloadData() async {
+    Client client = Client();
+    Response response;
+    response =  await client.get(Uri.parse('https://busybuddy.app/api/task'));
+    if (response.statusCode == 200) {
+      // If the call to the server was successful, parse the JSON
+      print(json.decode(response.body.toString())[0]);
+      TaskList tl = TaskList.fromJson(json.decode(response.body.toString()));
+      return Future.value(tl);
+    } else {
+      // If that call was not successful, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
 }
+
+
