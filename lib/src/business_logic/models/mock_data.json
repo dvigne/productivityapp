@@ -1,22 +1,22 @@
 {
-  "task_list": [
+  "tasks": [
     {
       "id": "068e3b0c-aa5d-42fa-9948-9d7e7966823a",
       "team_id": "7499111c-6045-3781-a194-773bf59aa201",
       "assigned": "59e6407e-1cf2-3406-9069-40b569c0e420",
-      "name": "Iustonumquametadoptio.Impeditquisquivoluptatemplaceatcupiditatequisquam.Harumvitaecumsintquoveldicta.",
-      "description": "Reprehenderitetidquianequetotamquia.Omnisofficiaquisquammolestiasqui.Quasdignissimosmolestiaedolorelaborumreiciendis.Dictainvelsapientedoloridpossimusvelitet.",
+      "name": "first task",
+      "description": "this is the first task and here's stuff about it.",
       "category": "Maid",
       "status": "to-do",
       "created_at": "2021-09-26T02: 27: 31.000000Z",
       "updated_at": "2021-09-26T02: 27: 31.000000Z"
     },
     {
-      "id": "068e3b0c-aa5d-42fa-9948-9d7e7966823a",
+      "id": "068e3b0c-aa5d-42fa-9948-9d724324223a",
       "team_id": "7499111c-6045-3781-a194-773bf59aa201",
       "assigned": "59e6407e-1cf2-3406-9069-40b569c0e420",
-      "name": "Iustonumquametadoptio.Impeditquisquivoluptatemplaceatcupiditatequisquam.Harumvitaecumsintquoveldicta.",
-      "description": "Reprehenderitetidquianequetotamquia.Omnisofficiaquisquammolestiasqui.Quasdignissimosmolestiaedolorelaborumreiciendis.Dictainvelsapientedoloridpossimusvelitet.",
+      "name": "second task",
+      "description": "this is the second task and here's stuff about it.",
       "category": "Maid",
       "status": "to-do",
       "created_at": "2021-09-26T02: 27: 31.000000Z",

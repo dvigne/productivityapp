@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productivityapp/src/business_logic/models/task.dart';
+import 'package:productivityapp/src/business_logic/blocs/tasklist.dart';
 
 class Home extends StatefulWidget {
   static const routeName = '/home';
@@ -36,13 +37,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Widget getTextWidgets(TaskList tasklist)
-  {
-    return new Column(
-        children: tasklist.tasks.map((item) => new Text(item.name))
-        .toList());
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -57,26 +51,16 @@ class _HomeState extends State<Home> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (BuildContext context, int index){
-                return ListTile(
-                    leading: const Icon(Icons.list),
-                    trailing: Checkbox(
-                        value: false,
-                        onChanged: (bool? value) {
-                          setState(() {
-                            // isChecked = value!;
-                          });
-                        }
-                    ),
-                    title:Text("List item $index")
-                );
-              }
-          ),
+      body: StreamBuilder(
+        stream: bloc.allTasks,
+        builder: (context, AsyncSnapshot<TaskList> snapshot) {
+          if (snapshot.hasData) {
+            return buildList(snapshot);
+          } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addTask,
@@ -85,4 +69,13 @@ class _HomeState extends State<Home> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+Widget buildList(AsyncSnapshot<TaskList> snapshot) {
+  return Column(
+      children: snapshot.data!.tasks.map(
+              (item) => Text(
+              item.name
+          )
+      ).toList());
 }
