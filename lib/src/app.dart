@@ -11,7 +11,7 @@ class ProductivityApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BusyBuddy',
+      title: Constants.appName,
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
@@ -19,7 +19,7 @@ class ProductivityApp extends StatelessWidget {
       initialRoute: LoginScreen.routeName,
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
-        Home.routeName: (context) => Home(title: Constants.appName),
+        Home.routeName: (context) => const Home(title: Constants.appName),
       },
     );
   }

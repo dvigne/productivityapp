@@ -15,6 +15,8 @@ class LoginScreen extends StatelessWidget {
 
   Future<String?> _loginUser(LoginData data) {
     return Future.delayed(loginTime).then((_) {
+      //testing
+      return null;
       if (!mockUsers.containsKey(data.name)) {
         return 'User not exists';
       }
