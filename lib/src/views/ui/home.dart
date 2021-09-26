@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:productivityapp/src/business_logic/models/task.dart';
 import 'package:productivityapp/src/business_logic/blocs/tasklist.dart';
@@ -5,6 +7,10 @@ import 'package:productivityapp/src/business_logic/blocs/tasklist.dart';
 class Home extends StatefulWidget {
   static const routeName = '/home';
   const Home({Key? key, required this.title}) : super(key: key);
+
+  /// -----------------------------------
+  ///           Auth0 Variables
+  /// -----------------------------------
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
