@@ -1,6 +1,6 @@
 # BusyBuddy
 
-Productivity app for groups to track their to-do lists and get reminders to better maintain focus. BusyBuddy was developed in flutter and works with the corresponding [backend](vhttps://github.com/dvigne/ProductivityBackend) developed in laravel.
+Productivity app for groups to track their to-do lists and get reminders to better maintain focus. BusyBuddy was developed in flutter and works with the corresponding [backend](https://github.com/dvigne/ProductivityBackend) developed in laravel.
 
 ## Requirements
 
