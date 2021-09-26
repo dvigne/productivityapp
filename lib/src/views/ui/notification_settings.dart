@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:productivityapp/src/business_logic/models/task.dart';
-import 'package:productivityapp/src/business_logic/blocs/tasklist.dart';
 
 class NotificationSettings extends StatefulWidget {
   static const routeName = '/notifications';
@@ -23,6 +21,15 @@ class NotificationSettings extends StatefulWidget {
 
 class _NotificationSettingsState extends State<NotificationSettings> {
 
+  String start_time = "";
+  String stop_time = "";
+  bool random_notifs = false;
+  int interval = 90;
+  int times = 10;
+
+  final start_controller = TextEditingController();
+  final stop_controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -38,11 +45,18 @@ class _NotificationSettingsState extends State<NotificationSettings> {
         title: Text(widget.title),
       ),
       body: Column(
-        children: const [
+        children: [
           Text("Notification Settings"),
           Text("Notifications Time Start"),
+          TextField(
+            controller: this.start_controller,
+          ),
           Text("Notifications Time End"),
+          TextField(
+            controller: this.stop_controller,
+          ),
           Text("Random or Scheduled"),
+
           Text("Interval/ Times per day")
         ]
       ),

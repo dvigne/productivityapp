@@ -4,10 +4,13 @@ class TaskList {
 
   List<_Task> _tasks = [];
 
-  TaskList.fromJson(Map<String, dynamic> parsedJson) {
+  TaskList(){}
+
+  TaskList.fromJson(List<dynamic> parsedJson) {
+    print('test');
     List<_Task> temp = [];
-    for (int i = 0; i < parsedJson['tasks'].length; i++) {
-      _Task result = _Task(parsedJson['tasks'][i]);
+    for (int i = 0; i < parsedJson.length; i++) {
+      _Task result = _Task(parsedJson[i]);
       temp.add(result);
     }
     _tasks = temp;

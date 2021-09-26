@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:productivityapp/src/views/ui/home.dart';
-import 'package:productivityapp/src/views/ui/login_screen.dart';
+import 'package:productivityapp/src/views/ui/test_login_screen.dart';
 import 'package:productivityapp/src/views/ui/notification_settings.dart';
 import 'package:productivityapp/src/views/utils/constants.dart';
 

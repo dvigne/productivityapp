@@ -1,9 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:productivityapp/src/business_logic/models/task.dart';
-import 'package:productivityapp/src/business_logic/blocs/tasklist.dart';
-
+import 'package:http/http.dart' show Client, Response;
+import 'dart:async';
+import 'dart:convert';
 class Home extends StatefulWidget {
   static const routeName = '/home';
   const Home({Key? key, required this.title}) : super(key: key);
@@ -51,21 +50,32 @@ class _HomeState extends State<Home> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    TaskList tasks = TaskList();
+
     return Scaffold(
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: StreamBuilder(
-        stream: bloc.allTasks,
+      body: FutureBuilder<TaskList> (
+        future: downloadData(),
+        initialData: tasks,
         builder: (context, AsyncSnapshot<TaskList> snapshot) {
-          if (snapshot.hasData) {
-            return buildList(snapshot);
-          } else if (snapshot.hasError) {
+          print(snapshot.connectionState);
+          if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           }
-          return const Center(child: CircularProgressIndicator());
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return const Center(child: CircularProgressIndicator(
+                  backgroundColor: Colors.amber, strokeWidth: 1),);
+            default:
+              if (snapshot.hasData) {
+                print(snapshot.data);
+                return buildList(snapshot.data!);
+              } else return Text("no data");
+          }
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -77,11 +87,26 @@ class _HomeState extends State<Home> {
   }
 }
 
-Widget buildList(AsyncSnapshot<TaskList> snapshot) {
+Widget buildList(TaskList tl) {
   return Column(
-      children: snapshot.data!.tasks.map(
+      children: tl.tasks.map(
               (item) => Text(
               item.name
           )
       ).toList());
+}
+
+Future<TaskList> downloadData() async {
+  Client client = Client();
+  Response response;
+  response =  await client.get(Uri.parse('https://busybuddy.app/api/task'));
+  if (response.statusCode == 200) {
+    // If the call to the server was successful, parse the JSON
+    print(json.decode(response.body.toString())[0]);
+    TaskList tl = TaskList.fromJson(json.decode(response.body.toString()));
+    return Future.value(tl);
+  } else {
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load post');
+  }
 }
