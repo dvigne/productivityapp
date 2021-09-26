@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 class NotificationSettings extends StatefulWidget {
   static const routeName = '/notifications';
@@ -23,12 +24,19 @@ class _NotificationSettingsState extends State<NotificationSettings> {
 
   String start_time = "";
   String stop_time = "";
+  String notif_type = "Scheduled";
   bool random_notifs = false;
   int interval = 90;
   int times = 10;
 
   final start_controller = TextEditingController();
   final stop_controller = TextEditingController();
+  final rand_n_sched_controller = TextEditingController();
+
+
+  void _submitSettings() {
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +63,27 @@ class _NotificationSettingsState extends State<NotificationSettings> {
           TextField(
             controller: this.stop_controller,
           ),
-          Text("Random or Scheduled"),
-
-          Text("Interval/ Times per day")
+          Text("${notif_type}"),
+          FlutterSwitch(
+            value: random_notifs,
+            showOnOff: true,
+            onToggle: (val) {
+              setState(() {
+                random_notifs = val;
+                notif_type = val ? "Scheduled" : "Random";
+              });
+            },
+          ),
+          Text("Interval/ Times per day"),
+          TextField(
+            controller: this.rand_n_sched_controller,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              _submitSettings();
+            },
+            child: const Text('Accept Changes'),
+          ),
         ]
       ),
     );
