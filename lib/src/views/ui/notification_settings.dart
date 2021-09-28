@@ -4,18 +4,10 @@ import 'package:productivityapp/src/views/utils/transition.dart';
 import 'package:productivityapp/src/views/utils/constants.dart';
 import 'package:productivityapp/src/views/ui/home.dart';
 
+
 class NotificationSettings extends StatefulWidget {
   static const routeName = '/notifications';
   const NotificationSettings({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -36,27 +28,30 @@ class _NotificationSettingsState extends State<NotificationSettings> {
 
 
   void _submitSettings() {
-    Navigator.of(context).pushReplacement(FadePageRoute(
-      builder: (context) => const Home(title: Constants.appName),
-    ));
+    if(true) { // success
+
+      Navigator.of(context).pushReplacement(FadePageRoute(
+        builder: (context) => const Home(title: Constants.appName),
+      ));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
     return Scaffold(
-      resizeToAvoidBottomInset: false, 
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).splashColor,
-        leading: const Image(
-            image: NetworkImage('https://raw.githubusercontent.com/dvigne/productivityapp/master/assets/BusyBuddy_logo.png')
-        ),
-        title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+          icon: const Icon(Icons.close_rounded),
+          onPressed: () {
+            Navigator.of(context).pushReplacement(FadePageRoute(
+              builder: (context) => const Home(title: Constants.appName),
+            ));
+          },
+        )
+      ]
       ),
       body: Column(
         children: [
@@ -85,7 +80,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
           SizedBox(height: 10),
           FlutterSwitch(
             value: random_notifs,
-            showOnOff: true,
+            showOnOff: false,
             onToggle: (val) {
               setState(() {
                 random_notifs = val;
